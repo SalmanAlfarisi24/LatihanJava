@@ -1,37 +1,89 @@
-
 import java.util.Scanner;
 
-public class NumberProcessorMinimal {
+public class JobSuggesterClean {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String input;
-        
-        System.out.println("Masukkan angka antara 1 sampai 100. Ketik 'selesai' untuk mengakhiri input.");
-        System.out.println("Hasil (semua, ganjil, genap) akan ditampilkan untuk setiap angka yang valid.");
 
-        while (true) {
-            System.out.print("Masukkan angka: ");
-            input = scanner.next();
+        System.out.println("--- Job Suggester Berdasarkan Flowchart ---");
 
-            if (input.equalsIgnoreCase("selesai")) {
-                break;
-            }
+        System.out.print("Apakah Anda Laki-laki atau Perempuan? (L/P): ");
+        String gender = scanner.nextLine().trim().toUpperCase();
 
-            int num = Integer.parseInt(input); // Akan error jika input bukan angka
-            if (num >= 1 && num <= 100) {
-                System.out.println("Angka Anda: " + num);
-                if (num % 2 != 0) {
-                    System.out.println(num + " adalah bilangan Ganjil.");
+        if (gender.equals("L")) {
+            System.out.print("Masukkan tinggi badan Anda dalam cm: ");
+            int height = scanner.nextInt();
+            scanner.nextLine();
+
+            if (height >= 170) {
+                System.out.print("Apakah penampilan Anda Menarik/Biasa? (M/B): ");
+                String appearance = scanner.nextLine().trim().toUpperCase();
+                if (appearance.equals("M")) {
+                    System.out.print("Apakah Anda menarik? (Ya/Tidak): ");
+                    String interesting = scanner.nextLine().trim().toUpperCase();
+                    if (interesting.equals("YA")) {
+                        System.out.println("Profesi yang disarankan adalah: Model");
+                    } else {
+                        System.out.println("Profesi yang disarankan adalah: debt collector");
+                    }
                 } else {
-                    System.out.println(num + " adalah bilangan Genap.");
+                    System.out.println("Profesi yang disarankan adalah: BOS");
                 }
             } else {
-                System.out.println("Angka harus antara 1 dan 100. Silakan coba lagi.");
+                System.out.print("Apakah penampilan Anda Menarik/Biasa? (M/B): ");
+                String appearance = scanner.nextLine().trim().toUpperCase();
+                if (appearance.equals("M")) {
+                    System.out.print("Apakah Anda menarik? (Ya/Tidak): ");
+                    String interesting = scanner.nextLine().trim().toUpperCase();
+                    if (interesting.equals("YA")) {
+                        System.out.println("Profesi yang disarankan adalah: teller bank");
+                    } else {
+                        System.out.println("Profesi yang disarankan adalah: BOS");
+                    }
+                } else {
+                    System.out.println("Profesi yang disarankan adalah: BOS");
+                }
             }
-            System.out.println("---"); // Pemisah untuk setiap input
+        } else if (gender.equals("P")) {
+            System.out.print("Apakah penampilan Anda Menarik/Biasa? (M/B): ");
+            String appearance = scanner.nextLine().trim().toUpperCase();
+
+            if (appearance.equals("M")) {
+                System.out.print("Apakah Anda menarik? (Ya/Tidak): ");
+                String interesting = scanner.nextLine().trim().toUpperCase();
+                if (interesting.equals("YA")) {
+                    System.out.println("Profesi yang disarankan adalah: Sekretaris");
+                } else {
+                    System.out.println("Profesi yang disarankan adalah: BOS");
+                }
+            } else {
+                System.out.print("Masukkan tinggi badan Anda dalam cm: ");
+                int height = scanner.nextInt();
+                scanner.nextLine();
+
+                if (height > 155) {
+                    System.out.print("Apakah penampilan Anda Menarik/Biasa? (M/B): ");
+                    String secondAppearance = scanner.nextLine().trim().toUpperCase();
+                    if (secondAppearance.equals("M")) {
+                        System.out.print("Apakah Anda menarik? (Ya/Tidak): ");
+                        String interesting = scanner.nextLine().trim().toUpperCase();
+                        if (interesting.equals("YA")) {
+                            System.out.println("Profesi yang disarankan adalah: Pramugari");
+                        } else {
+                            System.out.println("Profesi yang disarankan adalah: Manager");
+                        }
+                    } else {
+                        System.out.println("Profesi yang disarankan adalah: Manager");
+                    }
+                } else {
+                    System.out.println("Profesi yang disarankan adalah: Manager");
+                }
+            }
+        } else {
+            System.out.println("Masukan jenis kelamin tidak valid. Harap masukkan 'L' atau 'P'.");
         }
 
-        System.out.println("Program selesai.");
+        System.out.println("--- Selesai / Akhir ---");
         scanner.close();
     }
 }
