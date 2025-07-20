@@ -1,5 +1,5 @@
 # SalmanAlfarisi_SMKNWPANCOR_WEBDesain
-
+ 
 # Website Hari Kemerdekaan Republik Indonesia ke-79
 
 Website ini dibuat untuk memeriahkan Hari Kemerdekaan Republik Indonesia yang ke-79 dengan tema "Merah Putih". Website ini responsif dan menggunakan kombinasi warna merah dan putih yang khas. Dibangun menggunakan HTML, CSS, JavaScript, dan framework Bootstrap.
