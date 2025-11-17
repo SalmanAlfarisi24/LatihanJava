@@ -1,123 +1,178 @@
-// Class Orang
-class Orang {
+// Kelas induk (superclass) untuk semua pegawai
+class Pegawai {
+    // Atribut umum yang dimiliki semua pegawai
     private String nama;
     private String alamat;
-    private int umur;
-    
+    private String telepon;
+    private String bagian;
+    private String nomorId;
+    private double gajiPokok;
+
     // Constructor
-    public Orang() {}
-    
-    public Orang(String nama, String alamat, int umur) {
+    public Pegawai(String nama, String alamat, String telepon, 
+                   String bagian, String nomorId, double gajiPokok) {
         this.nama = nama;
         this.alamat = alamat;
-        this.umur = umur;
+        this.telepon = telepon;
+        this.bagian = bagian;
+        this.nomorId = nomorId;
+        this.gajiPokok = gajiPokok;
     }
-    
+
+    // Getter dan Setter
     public String getNama() {
         return nama;
     }
-    
-    public String getAlamat() {
-        return alamat;
-    }
-    
-    public int getUmur() {
-        return umur;
-    }
-    
+
     public void setNama(String nama) {
         this.nama = nama;
     }
-    
+
+    public String getAlamat() {
+        return alamat;
+    }
+
     public void setAlamat(String alamat) {
         this.alamat = alamat;
     }
-    
-    public void setUmur(int umur) {
-        this.umur = umur;
+
+    public String getTelepon() {
+        return telepon;
     }
-    
-    // method untuk.menampilkan data
+
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
+    }
+
+    public String getBagian() {
+        return bagian;
+    }
+
+    public void setBagian(String bagian) {
+        this.bagian = bagian;
+    }
+
+    public String getNomorId() {
+        return nomorId;
+    }
+
+    public void setNomorId(String nomorId) {
+        this.nomorId = nomorId;
+    }
+
+    public double getGajiPokok() {
+        return gajiPokok;
+    }
+
+    public void setGajiPokok(double gajiPokok) {
+        this.gajiPokok = gajiPokok;
+    }
+
+    // Method untuk menampilkan informasi umum pegawai
     public void displayInfo() {
+        System.out.println("=== Data Pegawai ===");
         System.out.println("Nama: " + nama);
         System.out.println("Alamat: " + alamat);
-        System.out.println("Umur: " + umur + " tahun");
+        System.out.println("Telepon: " + telepon);
+        System.out.println("Bagian: " + bagian);
+        System.out.println("ID: " + nomorId);
+        System.out.println("Gaji Pokok: Rp" + gajiPokok);
     }
 }
 
-// Class Dosen (turunan dari Orang)
-class Dosen extends Orang {
-    private String nidn;
-    
+// Kelas turunan untuk Pegawai Tetap
+class PegawaiTetap extends Pegawai {
+    private double tunjanganTetap;
+
     // Constructor
-    public Dosen() {}
-    
-    public Dosen(String nama, String alamat, int umur, String nidn) {
-        super(nama, alamat, umur);
-        this.nidn = nidn;
+    public PegawaiTetap(String nama, String alamat, String telepon,
+                        String bagian, String nomorId, double gajiPokok, 
+                        double tunjanganTetap) {
+        super(nama, alamat, telepon, bagian, nomorId, gajiPokok);
+        this.tunjanganTetap = tunjanganTetap;
     }
 
-    public String getNIDN() {
-        return nidn;
+    // Getter dan Setter khusus Pegawai Tetap
+    public double getTunjanganTetap() {
+        return tunjanganTetap;
     }
 
-    public void setNIDN(String nidn) {
-        this.nidn = nidn;
+    public void setTunjanganTetap(double tunjanganTetap) {
+        this.tunjanganTetap = tunjanganTetap;
     }
-    
+
+    // Method menghitung total gaji
+    public double hitungTotalGaji() {
+        return getGajiPokok() + tunjanganTetap;
+    }
+
     // Override method displayInfo
     @Override
     public void displayInfo() {
         super.displayInfo();
-        System.out.println("NIDN: " + nidn);
+        System.out.println("Tunjangan Tetap: Rp" + tunjanganTetap);
+        System.out.println("Total Gaji: Rp" + hitungTotalGaji());
+        System.out.println("Status: Pegawai Tetap\n");
     }
 }
 
-// Class Mahasiswa (turunan dari Orang)
-class Mahasiswa extends Orang {
-    private String npm;
-    
+// Kelas turunan untuk Pegawai Kontrak
+class PegawaiKontrak extends Pegawai {
+    private int lamaKontrak; // dalam bulan
+
     // Constructor
-    public Mahasiswa() {}
-    
-    public Mahasiswa(String nama, String alamat, int umur, String npm) {
-        super(nama, alamat, umur);
-        this.npm = npm;
-    }
-    
-    public String getNPM() {
-        return npm;
+    public PegawaiKontrak(String nama, String alamat, String telepon,
+                          String bagian, String nomorId, double gajiPokok,
+                          int lamaKontrak) {
+        super(nama, alamat, telepon, bagian, nomorId, gajiPokok);
+        this.lamaKontrak = lamaKontrak;
     }
 
-    public void setNPM(String npm) {
-        this.npm = npm;
+    // Getter dan Setter khusus Pegawai Kontrak
+    public int getLamaKontrak() {
+        return lamaKontrak;
     }
-    
+
+    public void setLamaKontrak(int lamaKontrak) {
+        this.lamaKontrak = lamaKontrak;
+    }
+
     // Override method displayInfo
     @Override
     public void displayInfo() {
         super.displayInfo();
-        System.out.println("NPM: " + npm);
+        System.out.println("Lama Kontrak: " + lamaKontrak + " bulan");
+        System.out.println("Status: Pegawai Kontrak\n");
     }
 }
 
-// Class Utama (main class)
-public class Utama {
+// Kelas utama untuk testing
+public class SistemDataPegawai {
     public static void main(String[] args) {
-        
-        Dosen dosen1 = new Dosen("Dr. Ahmad Wijaya", "Jl. Pendidikan No. 123", 45, "NIDN123456");
-        
-        Mahasiswa mhs1 = new Mahasiswa("Budi Santoso", "Jl. Merdeka No. 45", 20, "NPM202410001");
-        
-        System.out.println("----data Dosen ----");
-        dosen1.displayInfo();
-        
-        System.out.println("\n---- data Mahasiswa ----");
-        mhs1.displayInfo();
-        
-        // Demonstrasi penggunaan getter methods
-        System.out.println("\n=== MENGGUNAKAN GETTER METHODS ===");
-        System.out.println("Dosen - Nama: " + dosen1.getNama() + ", NIDN: " + dosen1.getNIDN());
-        System.out.println("Mahasiswa - Nama: " + mhs1.getNama() + ", NPM: " + mhs1.getNPM());
+        // Membuat objek pegawai tetap
+        PegawaiTetap pt1 = new PegawaiTetap(
+            "Ahmad Santoso",
+            "Jl. Merdeka No. 123",
+            "08123456789",
+            "Keuangan",
+            "PT001",
+            6000000,
+            1500000
+        );
+
+        // Membuat objek pegawai kontrak
+        PegawaiKontrak pk1 = new PegawaiKontrak(
+            "Budi Prasetyo",
+            "Jl. Sudirman No. 456",
+            "08765432109",
+            "Marketing",
+            "PK001",
+            4500000,
+            12
+        );
+
+        // Menampilkan informasi pegawai
+        pt1.displayInfo();
+        pk1.displayInfo();
     }
 }
