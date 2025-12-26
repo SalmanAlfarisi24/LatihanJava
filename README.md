@@ -179,22 +179,3 @@ WHERE t.tanggal_waktu = (
     FROM Data_tinggi_air t2 
     WHERE t2.id_waduk = d.id_waduk
 );
-```
-
-CATATAN:
-
-· Jalankan kode secara berurutan dari atas ke bawah
-· Untuk soal 2 (DELETE), data yang dihapus akan permanen
-· Untuk mencoba ulang, bisa drop database dan mulai dari awal    ```bash
-    git clone https://github.com/username/repo-name.git
-    ```
-2. Buka file `index.html` di browser Anda.
-
-## Struktur Proyek
-
-repo-name/
-├── index.html
-├── css/
-│ └── styles.css
-└── js/
-└── scripts.js
