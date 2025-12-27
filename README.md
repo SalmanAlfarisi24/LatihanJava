@@ -63,7 +63,7 @@ INSERT INTO Peringatan (id_waduk, level_peringatan, pesan, tanggal_issued) VALUE
 (1, 'Awas', 'Batas maksimum terlampaui, lakukan pelebaran pintu air', '2024-01-16 10:00:00');
 ```
 
-3. 10 SOAL UAS BESERTA JAWABAN
+3. 10 CONTOH SOAL BESERTA JAWABAN
 
 ```sql
 -- SOAL 1: DML (UPDATE)
