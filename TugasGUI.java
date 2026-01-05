@@ -1,105 +1,67 @@
-// AplikasiMahasiswa.java
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
 
-public class AplikasiMahasiswa extends JFrame {
-    private JTextField[][] tf = new JTextField[2][7];
-    
-    class Mahasiswa {
-        private String nama, nim, jurusan, tahunMasuk, judulSkripsi;
-        private int sksLulus, sksTidakLulus;
-        
-        public void setData(int i) {
-            nama = tf[i][0].getText();
-            nim = tf[i][1].getText();
-            jurusan = tf[i][2].getText();
-            tahunMasuk = tf[i][3].getText();
-            sksLulus = Integer.parseInt(tf[i][4].getText());
-            sksTidakLulus = Integer.parseInt(tf[i][5].getText());
-            judulSkripsi = tf[i][6].getText();
-        }
-        
-        public int hitungSks() { return sksLulus - sksTidakLulus; }
-        
-        public String getInfo() {
-            return "Nama: " + nama + "\nNIM: " + nim + "\nJurusan: " + jurusan +
-                   "\nTahun Masuk: " + tahunMasuk + "\nSKS Lulus: " + sksLulus +
-                   "\nSKS Tidak Lulus: " + sksTidakLulus + "\nTotal SKS Valid: " + hitungSks() +
-                   "\nJudul Skripsi: " + judulSkripsi + "\nStatus: " + 
-                   (hitungSks() >= 100 ? "MEMENUHI" : "BELUM MEMENUHI") + "\n\n";
-        }
+class Mahasiswa {
+    private String nama, nim, jurusan, tahunMasuk, judulSkripsi;
+    private int sksLulus, sksGagal;
+
+    // Constructor
+    public Mahasiswa() {}
+
+    // Getter dan Setter
+    public void setNama(String nama) { this.nama = nama; }
+    public String getNama() { return nama; }
+
+    public void setNim(String nim) { this.nim = nim; }
+    public String getNim() { return nim; }
+
+    public void setJurusan(String jurusan) { this.jurusan = jurusan; }
+    public String getJurusan() { return jurusan; }
+
+    public void setTahunMasuk(String tahun) { this.tahunMasuk = tahun; }
+    public String getTahunMasuk() { return tahunMasuk; }
+
+    public void setSksLulus(int sks) { this.sksLulus = sks; }
+    public int getSksLulus() { return sksLulus; }
+
+    public void setSksGagal(int sks) { this.sksGagal = sks; }
+    public int getSksGagal() { return sksGagal; }
+
+    public void setJudul(String judul) { this.judulSkripsi = judul; }
+    public String getJudul() { return judulSkripsi; }
+
+    // Hitung Total SKS Valid
+    public int getTotalSksValid() {
+        return sksLulus - sksGagal;
     }
-    
-    public AplikasiMahasiswa() {
-        setTitle("Input Mahasiswa");
-        setSize(800, 600);
-        setLayout(new BorderLayout());
-        
-        // Input panel
-        JPanel panel = new JPanel(new GridLayout(1, 2, 10, 0));
-        String[] labels = {"Nama", "NIM", "Jurusan", "Tahun Masuk", "SKS Lulus", "SKS Tidak Lulus", "Judul Skripsi"};
-        
-        for (int i = 0; i < 2; i++) {
-            JPanel p = new JPanel(new GridLayout(7, 2));
-            for (int j = 0; j < 7; j++) {
-                p.add(new JLabel(labels[j]));
-                tf[i][j] = new JTextField();
-                p.add(tf[i][j]);
-            }
-            panel.add(p);
-        }
-        
-        // Buttons
-        JPanel btnPanel = new JPanel();
-        btnPanel.add(new JButton("Proses") {{
-            addActionListener(e -> proses());
-        }});
-        btnPanel.add(new JButton("Reset") {{
-            addActionListener(e -> reset());
-        }});
-        btnPanel.add(new JButton("Keluar") {{
-            addActionListener(e -> System.exit(0));
-        }});
-        
-        add(panel, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.SOUTH);
-        
-        // Data contoh
-        String[][] contoh = {
-            {"Ahmad", "001", "TI", "2021", "120", "10", "Skripsi 1"},
-            {"Budi", "002", "SI", "2021", "110", "15", "Skripsi 2"}
-        };
-        
-        for (int i = 0; i < 2; i++)
-            for (int j = 0; j < 7; j++)
-                tf[i][j].setText(contoh[i][j]);
-        
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-    
-    private void proses() {
-        Mahasiswa[] mhs = new Mahasiswa[2];
-        StringBuilder hasil = new StringBuilder();
-        
-        for (int i = 0; i < 2; i++) {
-            mhs[i] = new Mahasiswa();
-            mhs[i].setData(i);
-            hasil.append("MAHASISWA ").append(i+1).append(":\n");
-            hasil.append(mhs[i].getInfo());
-        }
-        
-        JOptionPane.showMessageDialog(this, hasil.toString());
-    }
-    
-    private void reset() {
-        for (int i = 0; i < 2; i++)
-            for (int j = 0; j < 7; j++)
-                tf[i][j].setText("");
-    }
-    
+}
+
+public class ProgramMahasiswa {
     public static void main(String[] args) {
-        new AplikasiMahasiswa();
+        // Membuat 2 Objek Mahasiswa
+        for (int i = 1; i <= 2; i++) {
+            Mahasiswa mhs = new Mahasiswa();
+            
+            JOptionPane.showMessageDialog(null, "Input Data Mahasiswa ke-" + i);
+            mhs.setNama(JOptionPane.showInputDialog("Nama Mahasiswa:"));
+            mhs.setNim(JOptionPane.showInputDialog("NIM:"));
+            mhs.setJurusan(JOptionPane.showInputDialog("Jurusan:"));
+            mhs.setTahunMasuk(JOptionPane.showInputDialog("Tahun Masuk:"));
+            mhs.setSksLulus(Integer.parseInt(JOptionPane.showInputDialog("Jumlah SKS Lulus:")));
+            mhs.setSksGagal(Integer.parseInt(JOptionPane.showInputDialog("Jumlah SKS Tidak Lulus:")));
+            mhs.setJudul(JOptionPane.showInputDialog("Judul Skripsi:"));
+
+            // Menampilkan Hasil
+            String hasil = "--- Data Mahasiswa ke-" + i + " ---\n" +
+                           "Nama: " + mhs.getNama() + "\n" +
+                           "NIM: " + mhs.getNim() + "\n" +
+                           "Jurusan: " + mhs.getJurusan() + "\n" +
+                           "Tahun Masuk: " + mhs.getTahunMasuk() + "\n" +
+                           "SKS Lulus: " + mhs.getSksLulus() + "\n" +
+                           "SKS Tidak Lulus: " + mhs.getSksGagal() + "\n" +
+                           "Total SKS Valid: " + mhs.getTotalSksValid() + "\n" +
+                           "Judul Skripsi: " + mhs.getJudul();
+            
+            JOptionPane.showMessageDialog(null, hasil);
+        }
     }
-  }
+}
