@@ -193,3 +193,92 @@ public class Input_Nilai extends JFrame {
     }
 }
 ```
+
+
+
+```java
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class MainData extends JFrame {
+    private JTextField txtJudul, txtPengarang, txtPenerbit, txtTahun;
+    private JTextArea areaOutput;
+    private JButton btnSimpan, btnReset;
+
+    public MainData() {
+        setTitle("Sistem Perpustakaan");
+        setSize(450, 500);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout(10, 10));
+
+        JPanel panelInput = new JPanel(new GridLayout(5, 2, 10, 10));
+        panelInput.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        panelInput.add(new JLabel("Judul Buku:"));
+        txtJudul = new JTextField();
+        panelInput.add(txtJudul);
+
+        panelInput.add(new JLabel("Pengarang:"));
+        txtPengarang = new JTextField();
+        panelInput.add(txtPengarang);
+
+        panelInput.add(new JLabel("Penerbit:"));
+        txtPenerbit = new JTextField();
+        panelInput.add(txtPenerbit);
+
+        panelInput.add(new JLabel("Tahun Terbit:"));
+        txtTahun = new JTextField();
+        panelInput.add(txtTahun);
+
+        btnSimpan = new JButton("Simpan");
+        btnReset = new JButton("Reset");
+        panelInput.add(btnSimpan);
+        panelInput.add(btnReset);
+
+        add(panelInput, BorderLayout.NORTH);
+
+        areaOutput = new JTextArea();
+        areaOutput.setEditable(false);
+        add(new JScrollPane(areaOutput), BorderLayout.CENTER);
+
+        btnSimpan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Buku b = new Buku();
+                    b.setJudul(txtJudul.getText());
+                    b.setPengarang(txtPengarang.getText());
+                    b.setPenerbit(txtPenerbit.getText());
+                    b.setTahunTerbit(Integer.parseInt(txtTahun.getText()));
+
+                    areaOutput.append(
+                        "Judul: " + b.getJudul() + "\n" +
+                        "Pengarang: " + b.getPengarang() + "\n" +
+                        "Penerbit: " + b.getPenerbit() + "\n" +
+                        "Tahun: " + b.getTahunTerbit() + "\n\n"
+                    );
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Input Tahun Tidak Valid!");
+                }
+            }
+        });
+
+        btnReset.addActionListener(e -> {
+            txtJudul.setText("");
+            txtPengarang.setText("");
+            txtPenerbit.setText("");
+            txtTahun.setText("");
+            areaOutput.setText("");
+        });
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new MainData().setVisible(true);
+        });
+    }
+}
+```
