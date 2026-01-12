@@ -1,179 +1,195 @@
-1. CREATE DATABASE DAN TABEL
+```java
+// Mahasiswa2.java
+package GUI;
 
-```sql
--- Buat database
-CREATE DATABASE sistem_banjir;
-USE sistem_banjir;
+public class Mahasiswa2 {
 
--- Tabel Data_waduk
-CREATE TABLE Data_waduk (
-    id_waduk INT PRIMARY KEY AUTO_INCREMENT,
-    nama_waduk VARCHAR(50) NOT NULL,
-    lokasi VARCHAR(100),
-    kapasitas_max DECIMAL(10,2),
-    ketinggian_max DECIMAL(5,2)
-);
+    private String nama;
+    private String nim;
+    private String jurusan;
+    private int tahunMasuk;
+    private int sksLulus;
+    private int sksTidakLulus;
+    private String judulSkripsi;
 
--- Tabel Data_tinggi_air
-CREATE TABLE Data_tinggi_air (
-    id_ukur INT PRIMARY KEY AUTO_INCREMENT,
-    id_waduk INT,
-    tanggal_waktu DATETIME,
-    ketinggian_air DECIMAL(5,2),
-    debit_air DECIMAL(8,2),
-    FOREIGN KEY (id_waduk) REFERENCES Data_waduk(id_waduk)
-);
+    public String getNama() {
+        return nama;
+    }
 
--- Tabel Peringatan
-CREATE TABLE Peringatan (
-    id_peringatan INT PRIMARY KEY AUTO_INCREMENT,
-    id_waduk INT,
-    level_peringatan ENUM('Normal', 'Waspada', 'Siaga', 'Awas'),
-    pesan TEXT,
-    tanggal_issued DATETIME,
-    FOREIGN KEY (id_waduk) REFERENCES Data_waduk(id_waduk)
-);
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public String getNim() {
+        return nim;
+    }
+
+    public void setNim(String nim) {
+        this.nim = nim;
+    }
+
+    public String getJurusan() {
+        return jurusan;
+    }
+
+    public void setJurusan(String jurusan) {
+        this.jurusan = jurusan;
+    }
+
+    public int getTahunMasuk() {
+        return tahunMasuk;
+    }
+
+    public void setTahunMasuk(int tahunMasuk) {
+        this.tahunMasuk = tahunMasuk;
+    }
+
+    public int getSksLulus() {
+        return sksLulus;
+    }
+
+    public void setSksLulus(int sksLulus) {
+        this.sksLulus = sksLulus;
+    }
+
+    public int getSksTidakLulus() {
+        return sksTidakLulus;
+    }
+
+    public void setSksTidakLulus(int sksTidakLulus) {
+        this.sksTidakLulus = sksTidakLulus;
+    }
+
+    public String getJudulSkripsi() {
+        return judulSkripsi;
+    }
+
+    public void setJudulSkripsi(String judulSkripsi) {
+        this.judulSkripsi = judulSkripsi;
+    }
+
+    // Total SKS valid (tidak boleh negatif)
+    public int getTotalValid() {
+        int total = sksLulus - sksTidakLulus;
+        return Math.max(total, 0);
+    }
+}
 ```
 
-2. INSERT DATA
+```java
+// Input_Nilai.java
+package GUI;
 
-```sql
--- Data Waduk
-INSERT INTO Data_waduk (nama_waduk, lokasi, kapasitas_max, ketinggian_max) VALUES
-('Waduk Jatiluhur', 'Purwakarta, Jawa Barat', 3000.00, 107.00),
-('Waduk Saguling', 'Bandung Barat, Jawa Barat', 982.00, 643.00),
-('Waduk Cirata', 'Purwakarta-Cianjur, Jawa Barat', 2160.00, 221.00),
-('Waduk Gajah Mungkur', 'Wonogiri, Jawa Tengah', 763.00, 136.50);
+import javax.swing.*;
+import java.awt.*;
 
--- Data Tinggi Air
-INSERT INTO Data_tinggi_air (id_waduk, tanggal_waktu, ketinggian_air, debit_air) VALUES
-(1, '2024-01-15 08:00:00', 105.50, 150.75),
-(1, '2024-01-15 14:00:00', 106.80, 180.25),
-(2, '2024-01-15 09:30:00', 640.20, 95.50),
-(2, '2024-01-15 15:00:00', 642.80, 120.75),
-(3, '2024-01-15 10:00:00', 218.50, 200.30),
-(1, '2024-01-16 08:00:00', 107.50, 210.45),
-(4, '2024-01-15 11:00:00', 134.00, 85.60);
+public class Input_Nilai extends JFrame {
 
--- Data Peringatan
-INSERT INTO Peringatan (id_waduk, level_peringatan, pesan, tanggal_issued) VALUES
-(1, 'Siaga', 'Ketinggian air mendekati batas maksimum, waspadai luapan', '2024-01-16 09:15:00'),
-(2, 'Waspada', 'Debit air meningkat, pantau terus', '2024-01-15 16:30:00'),
-(3, 'Normal', 'Kondisi stabil', '2024-01-15 12:00:00'),
-(1, 'Awas', 'Batas maksimum terlampaui, lakukan pelebaran pintu air', '2024-01-16 10:00:00');
+    private JTextField txtNama, txtNim, txtJurusan, txtTahun, txtLulus, txtTidakLulus, txtJudul;
+    private JTextArea areaOutput;
+
+    public Input_Nilai() {
+        setTitle("Form Input Mahasiswa");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout(10, 10));
+
+        JPanel panelInput = new JPanel(new GridLayout(7, 2, 8, 8));
+
+        panelInput.add(new JLabel("Nama Mahasiswa"));
+        txtNama = new JTextField();
+        panelInput.add(txtNama);
+
+        panelInput.add(new JLabel("NIM"));
+        txtNim = new JTextField();
+        panelInput.add(txtNim);
+
+        panelInput.add(new JLabel("Jurusan"));
+        txtJurusan = new JTextField();
+        panelInput.add(txtJurusan);
+
+        panelInput.add(new JLabel("Tahun Masuk"));
+        txtTahun = new JTextField();
+        panelInput.add(txtTahun);
+
+        panelInput.add(new JLabel("Jumlah SKS Lulus"));
+        txtLulus = new JTextField();
+        panelInput.add(txtLulus);
+
+        panelInput.add(new JLabel("Jumlah SKS Tidak Lulus"));
+        txtTidakLulus = new JTextField();
+        panelInput.add(txtTidakLulus);
+
+        panelInput.add(new JLabel("Judul Skripsi"));
+        txtJudul = new JTextField();
+        panelInput.add(txtJudul);
+
+        add(panelInput, BorderLayout.NORTH);
+
+        areaOutput = new JTextArea(10, 40);
+        areaOutput.setEditable(false);
+        areaOutput.setLineWrap(true);
+        areaOutput.setWrapStyleWord(true);
+        add(new JScrollPane(areaOutput), BorderLayout.CENTER);
+
+        JPanel panelButton = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        JButton btnSimpan = new JButton("Simpan");
+        JButton btnReset = new JButton("Reset");
+        panelButton.add(btnSimpan);
+        panelButton.add(btnReset);
+        add(panelButton, BorderLayout.SOUTH);
+
+        btnSimpan.addActionListener(e -> simpanData());
+        btnReset.addActionListener(e -> resetForm());
+
+        pack();
+        setLocationRelativeTo(null);
+    }
+
+    private void simpanData() {
+        if (txtNama.getText().isEmpty() || txtNim.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nama dan NIM wajib diisi!");
+            return;
+        }
+
+        try {
+            Mahasiswa2 m = new Mahasiswa2();
+            m.setNama(txtNama.getText());
+            m.setNim(txtNim.getText());
+            m.setJurusan(txtJurusan.getText());
+            m.setTahunMasuk(Integer.parseInt(txtTahun.getText()));
+            m.setSksLulus(Integer.parseInt(txtLulus.getText()));
+            m.setSksTidakLulus(Integer.parseInt(txtTidakLulus.getText()));
+            m.setJudulSkripsi(txtJudul.getText());
+
+            areaOutput.append(
+                "Nama               : " + m.getNama() + "\n" +
+                "NIM                : " + m.getNim() + "\n" +
+                "Jurusan            : " + m.getJurusan() + "\n" +
+                "Tahun Masuk        : " + m.getTahunMasuk() + "\n" +
+                "SKS Lulus          : " + m.getSksLulus() + "\n" +
+                "SKS Tidak Lulus    : " + m.getSksTidakLulus() + "\n" +
+                "Total SKS Valid    : " + m.getTotalValid() + "\n" +
+                "Judul Skripsi      : " + m.getJudulSkripsi() + "\n" +
+                "----------------------------------------\n"
+            );
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Tahun dan SKS harus berupa angka!");
+        }
+    }
+
+    private void resetForm() {
+        txtNama.setText("");
+        txtNim.setText("");
+        txtJurusan.setText("");
+        txtTahun.setText("");
+        txtLulus.setText("");
+        txtTidakLulus.setText("");
+        txtJudul.setText("");
+        areaOutput.setText("");
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new Input_Nilai().setVisible(true));
+    }
+}
 ```
-
-3. 10 CONTOH SOAL BESERTA JAWABAN
-
-```sql
--- SOAL 1: DML (UPDATE)
--- Ubah kapasitas maksimum Waduk Gajah Mungkur menjadi 800 juta m³
-UPDATE Data_waduk 
-SET kapasitas_max = 800.00 
-WHERE nama_waduk = 'Waduk Gajah Mungkur';
-
--- SOAL 2: DML (DELETE)
--- Hapus data pengukuran yang memiliki debit air di bawah 100 m³/detik
-DELETE FROM Data_tinggi_air 
-WHERE debit_air < 100;
-
--- SOAL 3: JOIN (INNER JOIN)
--- Tampilkan nama waduk, lokasi, dan level peringatan terakhir
-SELECT d.nama_waduk, d.lokasi, p.level_peringatan, p.tanggal_issued
-FROM Data_waduk d
-INNER JOIN Peringatan p ON d.id_waduk = p.id_waduk
-ORDER BY p.tanggal_issued DESC;
-
--- SOAL 4: JOIN (LEFT JOIN)
--- Tampilkan semua waduk beserta data pengukurannya (jika ada)
-SELECT d.nama_waduk, t.tanggal_waktu, t.ketinggian_air
-FROM Data_waduk d
-LEFT JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk;
-
--- SOAL 5: Nested Query (Subquery)
--- Tampilkan waduk yang pernah mendapatkan peringatan level 'Awas'
-SELECT nama_waduk, lokasi
-FROM Data_waduk
-WHERE id_waduk IN (
-    SELECT id_waduk 
-    FROM Peringatan 
-    WHERE level_peringatan = 'Awas'
-);
-
--- SOAL 6: Fungsi Agregasi (AVG, GROUP BY)
--- Hitung rata-rata ketinggian air per waduk
-SELECT d.nama_waduk, AVG(t.ketinggian_air) as rata_ketinggian
-FROM Data_waduk d
-JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk
-GROUP BY d.id_waduk;
-
--- SOAL 7: Fungsi Agregasi (MAX, HAVING)
--- Tampilkan waduk dengan ketinggian air maksimum di atas 200 meter
-SELECT d.nama_waduk, MAX(t.ketinggian_air) as ketinggian_tertinggi
-FROM Data_waduk d
-JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk
-GROUP BY d.id_waduk
-HAVING ketinggian_tertinggi > 200;
-
--- SOAL 8: Nested Query dengan Agregasi
--- Tampilkan waduk dengan ketinggian air di atas rata-rata semua waduk
-SELECT nama_waduk, ketinggian_air, tanggal_waktu
-FROM Data_tinggi_air t
-JOIN Data_waduk d ON t.id_waduk = d.id_waduk
-WHERE ketinggian_air > (
-    SELECT AVG(ketinggian_air) 
-    FROM Data_tinggi_air
-);
-
--- SOAL 9: JOIN Multiple Table
--- Tampilkan semua data lengkap: waduk, pengukuran, dan peringatan
-SELECT d.nama_waduk, t.tanggal_waktu, t.ketinggian_air, 
-       p.level_peringatan, p.pesan
-FROM Data_waduk d
-LEFT JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk
-LEFT JOIN Peringatan p ON d.id_waduk = p.id_waduk
-ORDER BY d.nama_waduk, t.tanggal_waktu DESC;
-
--- SOAL 10: Fungsi Agregasi Kompleks
--- Tampilkan statistik lengkap per waduk
-SELECT d.nama_waduk,
-       COUNT(t.id_ukur) as jumlah_pengukuran,
-       MIN(t.ketinggian_air) as ketinggian_min,
-       MAX(t.ketinggian_air) as ketinggian_max,
-       AVG(t.ketinggian_air) as ketinggian_rata,
-       COUNT(p.id_peringatan) as jumlah_peringatan
-FROM Data_waduk d
-LEFT JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk
-LEFT JOIN Peringatan p ON d.id_waduk = p.id_waduk
-GROUP BY d.id_waduk
-ORDER BY jumlah_peringatan DESC;
-```
-
-4. BONUS QUERY TAMBAHAN
-
-```sql
--- 1. Cari peringatan dalam 24 jam terakhir
-SELECT * FROM Peringatan 
-WHERE tanggal_issued >= NOW() - INTERVAL 24 HOUR;
-
--- 2. Tambahkan kolom status dan update berdasarkan kondisi
-ALTER TABLE Data_tinggi_air ADD COLUMN status VARCHAR(20);
-
-UPDATE Data_tinggi_air t
-JOIN Data_waduk d ON t.id_waduk = d.id_waduk
-SET t.status = CASE 
-    WHEN t.ketinggian_air < d.ketinggian_max * 0.7 THEN 'Aman'
-    WHEN t.ketinggian_air < d.ketinggian_max * 0.9 THEN 'Waspada'
-    ELSE 'Bahaya'
-END;
-
--- 3. Ranking waduk berdasarkan ketinggian terakhir
-SELECT d.nama_waduk, t.ketinggian_air,
-       RANK() OVER (ORDER BY t.ketinggian_air DESC) as ranking
-FROM Data_waduk d
-JOIN Data_tinggi_air t ON d.id_waduk = t.id_waduk
-WHERE t.tanggal_waktu = (
-    SELECT MAX(tanggal_waktu) 
-    FROM Data_tinggi_air t2 
-    WHERE t2.id_waduk = d.id_waduk
-);
